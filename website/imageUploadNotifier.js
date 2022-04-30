@@ -13,7 +13,13 @@ exports.handler = function(event, context, callback) {
             snsRepository.notify(notification);
         }
         
-        callback(null, 200);
+        let responseMessage = `The number of messages processed: ${messages.length}`;
+        let response = {
+            statusCode: 200,
+            body: JSON.stringify(responseMessage)
+        };
+
+        callback(null, response);
     });
 };
 

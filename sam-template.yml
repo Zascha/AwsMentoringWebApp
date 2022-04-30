@@ -7,8 +7,13 @@ Resources:
     Properties:
       Handler:  website/imageUploadNotifier.handler
       Runtime: nodejs14.x
+      AutoPublishAlias: live
       DeploymentPreference:
         Type: AllAtOnce
+      Policies:      
+      - AmazonSNSFullAccess
+      - AmazonSQSFullAccess
+      - CloudWatchFullAccess
       Events:
         ImageUploadNotifierApi:
           Type: Api
@@ -17,9 +22,9 @@ Resources:
             Method: POST
   ImageUploadNotifierApiPermission:
     Type: AWS::Lambda::Permission
-    Properties:            
+    Properties:
       FunctionName:
-        Ref: "ImageUploadNotifierApi"
+        Ref: "ImageUploadNotifier"
       Action: lambda:InvokeFunction
       Principal: apigateway.amazonaws.com
       SourceArn:

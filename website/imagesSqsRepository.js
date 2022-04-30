@@ -36,6 +36,7 @@ function sendMessage(title, message, callback) {
 function getAllMessagesInBatches(callback){
     const params = {
         QueueUrl: config.queueUrl,
+        MaxNumberOfMessages: 10
     };
 
     sqs.receiveMessage(params, (err, data) => {

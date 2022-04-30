@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Specification template for 'ImageUploadNotifier' function
+Resources:
+  ImageUploadNotifier:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler:  website/imageUploadNotifier.handler
+      Runtime: nodejs14.x
+      DeploymentPreference:
+        Type: AllAtOnce
+      Events:
+        ImageUploadNotifierApi:
+          Type: Api
+          Properties:
+            Path: /notify
+            Method: POST
+  ImageUploadNotifierApiPermission:
+    Type: AWS::Lambda::Permission
+    Properties:            
+      FunctionName:
+        Ref: "ImageUploadNotifierApi"
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*

@@ -1,0 +1,21 @@
+{
+    "name": "mentoring-az-rds",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+      "aws-sdk": "latest",
+      "express": "latest",
+      "mysql": "latest",
+      "uuid": "latest",
+      "http": "latest",
+      "body-parser": "latest",
+      "multer": "latest",
+      "fs": "latest"
+    },
+    "scripts": {
+      "start": "node imagesApp.js"
+    }
+  }
+  
+  
+  

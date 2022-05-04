@@ -8,6 +8,7 @@ const s3Repository = require('./imagesS3Repository');
 const snsRepository = require('./imagesSnsRepository');
 const sqsRepository = require('./imagesSqsRepository');
 const lambdaRepository = require('./imagesLambdaRepository');
+const dynamoDbRepository = require('./imagesDynamoDbRepository');
 
 const port = 3000;
 
@@ -22,14 +23,14 @@ app.get('/', (req, res) => {
 // Get all images metadata
 app.get("/images", (req, res) => {
   const callback = (data) => res.json(data);
-  rdsRepository.getAll(callback);
+  dynamoDbRepository.getAll(callback);
 });
 
 // Get image metadata
 app.get("/image/:guid", (req, res) => {
   const guid = req.params.guid;
   const callback = (data) => res.json(data);
-  rdsRepository.get(guid, callback);
+  dynamoDbRepository.get(guid, callback);
 });
 
 // Upload image
@@ -38,7 +39,7 @@ app.post("/image", upload.single("image"), (req, res) => {
   const format = req.file.originalname.split('.')[1];
   const size = req.file.size;
 
-  rdsRepository.upload(name, format, size, async (guid) => {
+  dynamoDbRepository.upload(name, format, size, async (guid) => {
     await s3Repository.upload(req.file);
     var title = "A new image has been added.";
     var imageMetadata = {
@@ -56,7 +57,7 @@ app.post("/image", upload.single("image"), (req, res) => {
 app.get("/image/download/:guid", (req, res) => {
   const guid = req.params.guid;
 
-  rdsRepository.getName(guid, (result) => {
+  dynamoDbRepository.getName(guid, (result) => {
     const fileName = result[0].fileName;
     const imageStream = s3Repository.download(fileName);
     imageStream.pipe(res);
@@ -67,7 +68,7 @@ app.get("/image/download/:guid", (req, res) => {
 app.delete("/image/:guid", (req, res) => {
   const guid = req.params.guid;
   const callback = (data) => res.send(`Image '${guid}' is deleted.`);
-  rdsRepository.delete(guid, callback);
+  dynamoDbRepository.delete(guid, callback);
 });
 
 // Subscribe to notifications

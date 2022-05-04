@@ -7,16 +7,19 @@ const s3Bucket = "mentoring-webapp-az-rds";
 // RDS
 const dbName = "imagesDb";
 const dbTableName = "images";
-const dbHost = "mentoing-instance.crhyu1i91cg0.us-east-1.rds.amazonaws.com";
+const dbHost = "";
 const dbPort = 3306;
-const dbUser = "admin";
-const dbPassword = "(K%E(D8TJd5L=f#8";
+const dbUser = "";
+const dbPassword = "";
+
+// DynamoDb
+const dynamoDbTableName = "mentoring-images-table";
 
 // SNS
-const snsTopicArn = "arn:aws:sns:us-east-1:770782070231:mentoring-webapp-az-uploads-notification-topic";
+const snsTopicArn = "";
 
 // SQS
-const queueUrl = "https://sqs.us-east-1.amazonaws.com/770782070231/mentoring-webapp-az-uploads-notification-queue";
+const queueUrl = "";
 
 //Lambda
 const functionName = "mentoring-webapp-az-uploads-notifier";
@@ -34,5 +37,6 @@ module.exports = {
     snsTopicArn: snsTopicArn,
     queueUrl: queueUrl,
     functionName: functionName,
-    functionInvocationType: functionInvocationType
+    functionInvocationType: functionInvocationType,
+    dynamoDbTableName: dynamoDbTableName
 };
